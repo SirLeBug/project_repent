@@ -17,6 +17,8 @@ public class GunScript : MonoBehaviour
 
     //Reference
     public Animator anim;
+    public AnimationClip shootAnim;
+    public AnimationClip reloadAnim;
     public Camera fpsCam;
     public Transform attackPoint;
     public RaycastHit rayHit;
@@ -50,7 +52,7 @@ public class GunScript : MonoBehaviour
         readyToShoot = false;
 
         //Anim
-        anim.Play("RevolverRecoil", -1, 0f);
+        anim.Play(shootAnim.name, -1, 0f);
 
         //Spread
         float x = Random.Range(-spread, spread);
@@ -95,7 +97,7 @@ public class GunScript : MonoBehaviour
     private void Reload()
     {
         reloading = true;
-        anim.Play("RevolverReload", -1, 0f);
+        anim.Play(reloadAnim.name, -1, 0f);
         Invoke("ReloadFinished", reloadTime);
     }
 
@@ -123,6 +125,6 @@ public class GunScript : MonoBehaviour
         MyInput();
 
         //SetText
-        bulletsLeftText.SetText(bulletsLeft + " / " + magazineSize);
+        bulletsLeftText.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
     }
 }

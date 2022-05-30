@@ -20,7 +20,7 @@ public class DeathAndFinish : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.tag == "Death")
+        if (hit.gameObject.tag == "Death" || hit.gameObject.tag == "Enemy")
         {
             SceneManager.LoadScene("Level1");
         }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyAi : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class EnemyAi : MonoBehaviour
     public LayerMask whatIsGround, whatIsPlayer;
 
     public float health;
+
+    public Animator anim;
+    public AnimationClip idleAnim;
+    public AnimationClip chaseAnim;
 
     //Patroling
     public Vector3 walkPoint;
@@ -57,6 +62,8 @@ public class EnemyAi : MonoBehaviour
     }
     private void SearchWalkPoint()
     {
+        anim.SetBool("chasing", false);
+        //anim.Play(idleAnim.name, -1, 0f);
         //Calculate random point in range
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
@@ -69,6 +76,8 @@ public class EnemyAi : MonoBehaviour
 
     private void ChasePlayer()
     {
+        anim.SetBool("chasing", true);
+        //anim.Play(chaseAnim.name, -1, 0f);
         agent.SetDestination(player.position);
     }
 
@@ -79,21 +88,23 @@ public class EnemyAi : MonoBehaviour
 
         transform.LookAt(player);
 
-        if (!alreadyAttacked)
-        {
-            ///Attack code here
-            if(projectile != null)
-            {
-                Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-                rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-                rb.AddForce(transform.up * 8f, ForceMode.Impulse);
-            }
-           
-            ///End of attack code
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-        }
+        //if (!alreadyAttacked)
+        //{
+        ///Attack code here
+        //if(projectile != null)
+        //{
+        //Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+        //rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+        //rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+        //}
+
+        ///End of attack code
+
+        //alreadyAttacked = true;
+        //Invoke(nameof(ResetAttack), timeBetweenAttacks);
+    //}
     }
     private void ResetAttack()
     {
@@ -104,7 +115,7 @@ public class EnemyAi : MonoBehaviour
     {
         health -= damage;
 
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        if (health <= 0) Destroy(gameObject); //Invoke(nameof(DestroyEnemy), 0.5f);
     }
     private void DestroyEnemy()
     {
