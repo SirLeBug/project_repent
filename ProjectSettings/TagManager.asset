@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - CandiceTile
+  - Ground
+  - Death
+  - TheEnd
   layers:
   - Default
   - TransparentFX
@@ -18,7 +22,7 @@ TagManager:
   - Ground
   - Enemy
   - Weapon
-  - 
+  - Wall
   - 
   - 
   - 

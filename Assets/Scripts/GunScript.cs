@@ -23,7 +23,8 @@ public class GunScript : MonoBehaviour
     public LayerMask whatIsEnemy;
 
     //Grapphics
-    //public GameObject muzzleFlash, bulletHoleGraphic;
+    public GameObject muzzleFlash;
+    public GameObject bulletHoleGraphic;
     //public CamShake camShake;
     //public float camShakeMagnitude, camShakeDuration;
     public TextMeshProUGUI bulletsLeftText;
@@ -64,8 +65,16 @@ public class GunScript : MonoBehaviour
             Debug.Log(rayHit.collider.name);
             
             if (rayHit.collider.CompareTag("Enemy"))   
-                rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
+                rayHit.collider.GetComponent<EnemyAi>().TakeDamage(damage);
         }
+
+        //ShakeCamera
+        //camShake.Shake(camShakeDuration, camShakeMagnitude);
+
+        //Graphics
+        //Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
+        //Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
+        muzzleFlash.GetComponent<ParticleSystem>().Play();
 
         bulletsLeft--;
         bulletsShot--;
@@ -86,6 +95,7 @@ public class GunScript : MonoBehaviour
     private void Reload()
     {
         reloading = true;
+        anim.Play("RevolverReload", -1, 0f);
         Invoke("ReloadFinished", reloadTime);
     }
 

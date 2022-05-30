@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -29,7 +27,7 @@ public class EnemyAi : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.Find("PlayerShape").transform;
+        player = GameObject.Find("PlayerObj").transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -48,7 +46,7 @@ public class EnemyAi : MonoBehaviour
     {
         if (!walkPointSet) SearchWalkPoint();
 
-        if(walkPointSet)
+        if (walkPointSet)
             agent.SetDestination(walkPoint);
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
@@ -57,7 +55,6 @@ public class EnemyAi : MonoBehaviour
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
     }
-
     private void SearchWalkPoint()
     {
         //Calculate random point in range
@@ -67,10 +64,7 @@ public class EnemyAi : MonoBehaviour
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
         if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-        {
             walkPointSet = true;
-            //agent.SetDestination(walkPoint);
-        }
     }
 
     private void ChasePlayer()
@@ -87,16 +81,20 @@ public class EnemyAi : MonoBehaviour
 
         if (!alreadyAttacked)
         {
-            //Attack Code here
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 32f, ForceMode.Impulse);
+            ///Attack code here
+            if(projectile != null)
+            {
+                Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+                rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+                rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            }
+           
+            ///End of attack code
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
-
     private void ResetAttack()
     {
         alreadyAttacked = false;
@@ -108,7 +106,6 @@ public class EnemyAi : MonoBehaviour
 
         if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
     }
-
     private void DestroyEnemy()
     {
         Destroy(gameObject);
