@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class EnemyAi : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class EnemyAi : MonoBehaviour
     public LayerMask whatIsGround, whatIsPlayer;
 
     public float health;
+    private float maxHealth;
+    public GameObject healthBarUI;
+    public Slider slider;
+    
 
     public Animator anim;
     public AnimationClip idleAnim;
@@ -34,10 +39,15 @@ public class EnemyAi : MonoBehaviour
     {
         player = GameObject.Find("PlayerObj").transform;
         agent = GetComponent<NavMeshAgent>();
+        maxHealth = health;
+        slider.value = CalculateHealth();
     }
 
     private void Update()
     {
+        healthBarUI.transform.LookAt(player);
+        slider.value = CalculateHealth();
+
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
@@ -88,7 +98,7 @@ public class EnemyAi : MonoBehaviour
 
         transform.LookAt(player);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("Death");
 
         //if (!alreadyAttacked)
         //{
@@ -128,5 +138,10 @@ public class EnemyAi : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+
+    float CalculateHealth()
+    {
+        return health / maxHealth;
     }
 }

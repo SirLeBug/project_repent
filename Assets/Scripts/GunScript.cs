@@ -107,12 +107,6 @@ public class GunScript : MonoBehaviour
         bulletsLeft = magazineSize;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     private void Awake()
     {
         bulletsLeft = magazineSize;

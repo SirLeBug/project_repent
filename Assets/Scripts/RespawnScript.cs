@@ -8,18 +8,13 @@ public class RespawnScript : MonoBehaviour
     public GameObject player;
     public Vector3 startPos;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        //startPos = player.transform.position;
-    }
-
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene("Level1");
         }
     }
 }

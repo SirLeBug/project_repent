@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: 5449008184420ae4089fe7501e83f414
+  - enabled: 1
+    path: Assets/Scenes/Screens/Death.unity
+    guid: 6d1efc1ede37a9a40a01f8fa5f2b47f5
+  - enabled: 1
+    path: Assets/Scenes/Screens/Win.unity
+    guid: cb4e147223771b246a5fe63a6889e025
   m_configObjects: {}
